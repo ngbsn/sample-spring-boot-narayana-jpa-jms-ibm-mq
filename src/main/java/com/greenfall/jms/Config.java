@@ -37,15 +37,15 @@ public class Config {
     @Bean
     public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() throws JMSException {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setConnectionFactory(getConnectionFactory());
+        factory.setConnectionFactory(connectionFactory());
         factory.setDestinationResolver(new DynamicDestinationResolver());
         factory.setSessionTransacted(true);
-        factory.setConcurrency("10");
+        factory.setConcurrency("2-10");
         return factory;
     }
 
     @Bean
-    public MQQueueConnectionFactory getConnectionFactory() throws JMSException {
+    public MQQueueConnectionFactory connectionFactory() throws JMSException {
         final MQQueueConnectionFactory connectionFactory = new MQQueueConnectionFactory();
         connectionFactory.setHostName(hostName);
         connectionFactory.setPort(port);
@@ -59,9 +59,10 @@ public class Config {
         return connectionFactory;
     }
 
-    private CachingConnectionFactory getCachingConnectionFactory() throws JMSException {
+    @Bean
+    public CachingConnectionFactory cachingConnectionFactory() throws JMSException {
         final CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory();
-        cachingConnectionFactory.setTargetConnectionFactory(getConnectionFactory());
+        cachingConnectionFactory.setTargetConnectionFactory(connectionFactory());
         cachingConnectionFactory.setCacheConsumers(false);
         cachingConnectionFactory.setCacheProducers(true);
         cachingConnectionFactory.setSessionCacheSize(10);
@@ -73,7 +74,7 @@ public class Config {
     @Bean
     public JmsTemplate getJmsTemplate() throws JMSException {
         JmsTemplate jmsTemplate = new JmsTemplate();
-        jmsTemplate.setConnectionFactory(getCachingConnectionFactory());
+        jmsTemplate.setConnectionFactory(cachingConnectionFactory());
         jmsTemplate.setExplicitQosEnabled(true);
         jmsTemplate.setDeliveryPersistent(false);
         jmsTemplate.setSessionTransacted(true);
