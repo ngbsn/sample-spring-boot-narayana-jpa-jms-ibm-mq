@@ -1,4 +1,4 @@
-package com.greenfall.domain.entity;
+package com.ngbsn.domain.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -1,8 +1,8 @@
-package com.greenfall.service;
+package com.ngbsn.service;
 
-import com.greenfall.domain.entity.Entry;
-import com.greenfall.domain.repository.EntryRepository;
-import com.greenfall.jms.JMSProducer;
+import com.ngbsn.domain.entity.Entry;
+import com.ngbsn.domain.repository.EntryRepository;
+import com.ngbsn.jms.JMSProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
